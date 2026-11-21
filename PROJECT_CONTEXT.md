@@ -54,14 +54,18 @@ The end goal is a modular pipeline that:
 ---
 
 ## 5. Development Roadmap
-- **Phase 1: Reference Video Analyzer** *(Ready for Architecture Discussion & Implementation)*
-  - Video downloading / ingestion via URL or local file (`yt-dlp` / local upload)
-  - Scene and cut detection (PySceneDetect)
-  - Speech transcription with word-level timestamps (`faster-whisper`)
-  - Audio track separation & beat/energy detection
-  - Motion / zoom detection (OpenCV optical flow or keyframe comparison)
-  - Timeline JSON generator (capturing reference video DNA)
-- **Phase 2: Source Footage Discovery**
+- **Phase 1: Reference Video Analyzer** - [x] **COMPLETED**
+  - [x] Dependencies installed (`scenedetect`, `faster-whisper`, `numpy`, `scipy`, `pydantic`).
+  - [x] Ingestion module (`shorts_studio/analyzer/ingest.py`): URL download via `yt-dlp` or local video ingestion + 360p CPU proxy generation + 16kHz mono WAV extraction.
+  - [x] Scene/Cut detection module (`shorts_studio/analyzer/scenes.py`): ContentDetector based scene boundary identification.
+  - [x] Kinetic speech transcription (`shorts_studio/analyzer/transcribe.py`): faster-whisper (CTranslate2 `int8` CPU) with word-level millisecond timestamps.
+  - [x] Audio analysis module (`shorts_studio/analyzer/audio.py`): RMS sliding-window energy dynamics and audio peak detection.
+  - [x] Timeline specification & exporter (`shorts_studio/analyzer/models.py`, `pipeline.py`): Unified JSON schema output (`timeline.json`).
+  - [x] Verified on real test clip (`D:\sources\ai tantrum.mp4`).
+- **Phase 2: Source Footage Discovery** *(Next Target)*
+  - Semantic query extraction per scene from transcribed speech and visual context
+  - Automated footage search and retrieval (Pexels / Pixabay API, YouTube search, or local footage library)
+  - Video downloading and clipping candidate matches
 - **Phase 3: Human Approval of Footage**
 - **Phase 4: Automated Editing Engine**
 - **Phase 5: Advanced Editing Styles, Captions & Audio Matching**
@@ -71,5 +75,5 @@ The end goal is a modular pipeline that:
 ---
 
 ## 6. Known Issues & Immediate Next Steps
-1. **GitHub Remote Link**: If you want your commits on your GitHub profile, create a repository on GitHub (e.g. `ShortsStudio`) and link it (`git remote add origin ...`).
-2. **Phase 1 Architecture Discussion**: Agree on the component breakdown for Phase 1 (Ingestion -> Scene Detection -> Audio/Transcription -> Motion Analysis -> JSON Timeline Export) before installing libraries and writing code.
+1. **Phase 2 Planning**: Discuss source footage discovery strategy (e.g., local clip matching vs. free stock API integration like Pexels vs. YouTube search).
+2. **Push Phase 1 to GitHub**: Ensure all working Phase 1 modules are committed and pushed to `https://github.com/cap-sap/ShortsStudio.git`.
