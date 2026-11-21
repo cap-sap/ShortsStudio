@@ -62,10 +62,12 @@ The end goal is a modular pipeline that:
   - [x] Audio analysis module (`shorts_studio/analyzer/audio.py`): RMS sliding-window energy dynamics and audio peak detection.
   - [x] Timeline specification & exporter (`shorts_studio/analyzer/models.py`, `pipeline.py`): Unified JSON schema output (`timeline.json`).
   - [x] Verified on real test clip (`D:\sources\ai tantrum.mp4`).
-- **Phase 2: Source Footage Discovery** *(Next Target)*
-  - Semantic query extraction per scene from transcribed speech and visual context
-  - Automated footage search and retrieval (Pexels / Pixabay API, YouTube search, or local footage library)
-  - Video downloading and clipping candidate matches
+- **Phase 2: Source Footage Discovery** *(In Progress)*
+  - [x] Architecture decided: Start with YouTube / YouTube Shorts search via `yt-dlp` for rapid MVP testing; expand to Twitter/X, Instagram Reels, TikTok, and general web browser search post-MVP.
+  - [ ] Semantic query extraction per scene from transcribed speech (`timeline.json`)
+  - [ ] Search engine wrapper for YouTube video discovery
+  - [ ] Candidate video fetcher and metadata ranker
+  - [ ] Candidates JSON generator (`candidates.json`) to feed Phase 3 (Human Approval UI)
 - **Phase 3: Human Approval of Footage**
 - **Phase 4: Automated Editing Engine**
 - **Phase 5: Advanced Editing Styles, Captions & Audio Matching**
@@ -75,5 +77,8 @@ The end goal is a modular pipeline that:
 ---
 
 ## 6. Known Issues & Immediate Next Steps
-1. **Phase 2 Planning**: Discuss source footage discovery strategy (e.g., local clip matching vs. free stock API integration like Pexels vs. YouTube search).
-2. **Push Phase 1 to GitHub**: Ensure all working Phase 1 modules are committed and pushed to `https://github.com/cap-sap/ShortsStudio.git`.
+1. **Phase 2 Implementation**: Build `shorts_studio/discovery/` modules:
+   - `query_gen.py`: Extract search keywords per scene from the speech transcript.
+   - `search.py`: Query YouTube Shorts using `yt-dlp` search syntax (`ytsearch3:...`).
+   - `models.py`: Pydantic models for Candidates and Matched Scenes.
+2. **Review & Test**: Test candidate discovery against the `timeline.json` from Phase 1.
