@@ -49,7 +49,7 @@ The end goal is a modular pipeline that:
 - [x] **Node.js**: Present at `C:\Program Files\nodejs\node.exe`.
 - [x] **Python Runtime**: Python 3.11.9 installed at `D:\applicatons\Python311\python.exe`.
 - [x] **Virtual Environment**: Dedicated `.venv` created at `D:\ShortsStudio\.venv` using Python 3.11.9.
-- [x] **Git & GitHub Setup**: Git repository initialized with `.gitignore`. Configured user: `cap-sap` (`saifurrehman18158@gmail.com`). Initial commit recorded.
+- [x] **Git & GitHub Setup**: Git repository initialized with `.gitignore`. Configured user: `cap-sap` (`saifurrehman18158@gmail.com`). Remote repository connected to `https://github.com/cap-sap/ShortsStudio.git` and pushed to `main`.
 
 ---
 
