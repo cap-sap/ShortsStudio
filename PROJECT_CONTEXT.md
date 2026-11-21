@@ -47,14 +47,14 @@ The end goal is a modular pipeline that:
 - [x] **Workspace**: `D:\ShortsStudio` initialized.
 - [x] **FFmpeg & Media Tools**: Present in `D:\yt-dpl` (`ffmpeg.exe` v8.1.1, `ffprobe.exe`, `yt-dlp.exe`). FFmpeg is globally accessible in PATH.
 - [x] **Node.js**: Present at `C:\Program Files\nodejs\node.exe`.
-- [x] **Git**: Found at `D:\applicatons\git\Git\cmd\git.exe` (Git v2.56.1). Ready for repository initialization (`git init`).
-- [ ] **Python**: Host system has Python 3.14.3. Needs Python 3.11/3.12 environment setup due to wheel compatibility for AI/CV/audio dependencies (`faster-whisper`, `opencv`, `librosa`, `numba`).
-- [ ] **Project Virtual Environment & Dependencies**: Pending Python 3.11/3.12 setup.
+- [x] **Python Runtime**: Python 3.11.9 installed at `D:\applicatons\Python311\python.exe`.
+- [x] **Virtual Environment**: Dedicated `.venv` created at `D:\ShortsStudio\.venv` using Python 3.11.9.
+- [x] **Git & GitHub Setup**: Git repository initialized with `.gitignore`. Configured user: `cap-sap` (`saifurrehman18158@gmail.com`). Initial commit recorded.
 
 ---
 
 ## 5. Development Roadmap
-- **Phase 1: Reference Video Analyzer** *(Current Target for Discussion)*
+- **Phase 1: Reference Video Analyzer** *(Ready for Architecture Discussion & Implementation)*
   - Video downloading / ingestion via URL or local file (`yt-dlp` / local upload)
   - Scene and cut detection (PySceneDetect)
   - Speech transcription with word-level timestamps (`faster-whisper`)
@@ -71,6 +71,5 @@ The end goal is a modular pipeline that:
 ---
 
 ## 6. Known Issues & Immediate Next Steps
-1. **Python Runtime**: Confirm the installed Python version and establish a dedicated virtual environment (`.venv`) in `D:\ShortsStudio`.
-2. **Git Setup**: Check whether Git is installed on the machine (e.g. in a non-standard path) or needs installation.
-3. **Phase 1 Architecture Discussion**: Agree on the component breakdown for Phase 1 (Ingestion -> Scene Detection -> Audio/Transcription -> Motion Analysis -> JSON Timeline Export) before writing code.
+1. **GitHub Remote Link**: If you want your commits on your GitHub profile, create a repository on GitHub (e.g. `ShortsStudio`) and link it (`git remote add origin ...`).
+2. **Phase 1 Architecture Discussion**: Agree on the component breakdown for Phase 1 (Ingestion -> Scene Detection -> Audio/Transcription -> Motion Analysis -> JSON Timeline Export) before installing libraries and writing code.
