@@ -62,13 +62,18 @@ The end goal is a modular pipeline that:
   - [x] Audio analysis module (`shorts_studio/analyzer/audio.py`): RMS sliding-window energy dynamics and audio peak detection.
   - [x] Timeline specification & exporter (`shorts_studio/analyzer/models.py`, `pipeline.py`): Unified JSON schema output (`timeline.json`).
   - [x] Verified on real test clip (`D:\sources\ai tantrum.mp4`).
-- **Phase 2: Source Footage Discovery** *(In Progress)*
+- **Phase 2: Source Footage Discovery** - [x] **COMPLETED**
   - [x] Architecture decided: Start with YouTube / YouTube Shorts search via `yt-dlp` for rapid MVP testing; expand to Twitter/X, Instagram Reels, TikTok, and general web browser search post-MVP.
-  - [ ] Semantic query extraction per scene from transcribed speech (`timeline.json`)
-  - [ ] Search engine wrapper for YouTube video discovery
-  - [ ] Candidate video fetcher and metadata ranker
-  - [ ] Candidates JSON generator (`candidates.json`) to feed Phase 3 (Human Approval UI)
-- **Phase 3: Human Approval of Footage**
+  - [x] Data models defined (`shorts_studio/discovery/models.py`): `FootageCandidate`, `SceneCandidates`, `DiscoveryResult`.
+  - [x] Semantic query generator (`shorts_studio/discovery/query_gen.py`): Extracts contextual keywords per scene from spoken words, filters stopwords, appends `#shorts`.
+  - [x] YouTube search engine (`shorts_studio/discovery/youtube.py`): Uses `yt-dlp` `--flat-playlist` to query candidate titles, URLs, durations, thumbnails, and views without triggering bot blocks.
+  - [x] Pipeline orchestrator (`shorts_studio/discovery/pipeline.py`): Connects `timeline.json` -> semantic queries -> candidate discovery -> `candidates.json`.
+  - [x] Verified end-to-end on test clip (`ai tantrum.mp4`) with 9 candidate clips discovered across all 3 scenes.
+- **Phase 3: Human Approval of Footage** *(Next Target)*
+  - Interactive Streamlit dashboard to preview reference video & timeline breakdown
+  - Visual cards for each scene showing candidate video thumbnails, titles, durations, and channels
+  - User controls: Approve candidate, Swap candidate, or enter custom URL/file
+  - Export approved footage map (`approved_timeline.json`) to drive Phase 4 Editing Engine
 - **Phase 4: Automated Editing Engine**
 - **Phase 5: Advanced Editing Styles, Captions & Audio Matching**
 - **Phase 6: Quality Checking & Export**
@@ -77,8 +82,5 @@ The end goal is a modular pipeline that:
 ---
 
 ## 6. Known Issues & Immediate Next Steps
-1. **Phase 2 Implementation**: Build `shorts_studio/discovery/` modules:
-   - `query_gen.py`: Extract search keywords per scene from the speech transcript.
-   - `search.py`: Query YouTube Shorts using `yt-dlp` search syntax (`ytsearch3:...`).
-   - `models.py`: Pydantic models for Candidates and Matched Scenes.
-2. **Review & Test**: Test candidate discovery against the `timeline.json` from Phase 1.
+1. **Push Phase 2 to GitHub**: Commit and push discovery modules and tests to `https://github.com/cap-sap/ShortsStudio.git`.
+2. **Phase 3 Discussion & Architecture**: Design the Streamlit Human Approval UI layout and user flow.
