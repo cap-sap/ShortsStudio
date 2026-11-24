@@ -71,19 +71,30 @@ def search_youtube_shorts(query: str, max_results: int = 3) -> List[FootageCandi
     return candidates
 
 
-def download_candidate(candidate: FootageCandidate, output_dir: Path, filename_prefix: str = "") -> str:
+def download_candidate(candidate: FootageCandidate, output_dir: Path, filename_prefix: str = "", low_res: bool = True) -> str:
     """
-    Downloads an individual candidate video to a local directory for editing.
+    Downloads an individual candidate video. Uses low-res 360p proxy by default
+    for fast verification, or full quality for final export.
     """
     ytdlp_bin = find_binary("yt-dlp")
-    output_dir.mkdir(parents=True, exist_ok=True)
+    resolved_dir = Path(output_dir).resolve()
+    resolved_dir.mkdir(parents=True, exist_ok=True)
     
     prefix = f"{filename_prefix}_" if filename_prefix else ""
-    target_template = str(output_dir / f"{prefix}{candidate.candidate_id}.%(ext)s")
+    target_template = str(resolved_dir / f"{prefix}{candidate.candidate_id}.%(ext)s")
+    
+    # Check if already downloaded
+    existing = list(resolved_dir.glob(f"{prefix}{candidate.candidate_id}.*"))
+    if existing:
+        candidate.local_file_path = str(existing[0])
+        return str(existing[0])
+    
+    video_format = "best[height<=360]/best[height<=480]/worst" if low_res else "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best"
     
     cmd = [
         ytdlp_bin,
-        "-f", "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+        "--extractor-args", "youtube:player_client=android,web",
+        "-f", video_format,
         "--merge-output-format", "mp4",
         "-o", target_template,
         candidate.url
@@ -100,9 +111,9 @@ def download_candidate(candidate: FootageCandidate, output_dir: Path, filename_p
     )
     
     # Locate downloaded file
-    matches = list(output_dir.glob(f"{prefix}{candidate.candidate_id}.*"))
+    matches = list(resolved_dir.glob(f"{prefix}{candidate.candidate_id}.*"))
     if not matches:
-        raise FileNotFoundError(f"Failed to locate downloaded candidate {candidate.candidate_id}")
+        raise FileNotFoundError(f"Failed to locate downloaded candidate {candidate.candidate_id} in {resolved_dir}")
         
     candidate.local_file_path = str(matches[0])
     return str(matches[0])

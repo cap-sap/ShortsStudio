@@ -62,13 +62,13 @@ The end goal is a modular pipeline that:
   - [x] Audio analysis module (`shorts_studio/analyzer/audio.py`): RMS sliding-window energy dynamics and audio peak detection.
   - [x] Timeline specification & exporter (`shorts_studio/analyzer/models.py`, `pipeline.py`): Unified JSON schema output (`timeline.json`).
   - [x] Verified on real test clip (`D:\sources\ai tantrum.mp4`).
-- **Phase 2: Source Footage Discovery** - [x] **COMPLETED**
-  - [x] Architecture decided: Start with YouTube / YouTube Shorts search via `yt-dlp` for rapid MVP testing; expand to Twitter/X, Instagram Reels, TikTok, and general web browser search post-MVP.
-  - [x] Data models defined (`shorts_studio/discovery/models.py`): `FootageCandidate`, `SceneCandidates`, `DiscoveryResult`.
-  - [x] Semantic query generator (`shorts_studio/discovery/query_gen.py`): Extracts contextual keywords per scene from spoken words, filters stopwords, appends `#shorts`.
-  - [x] YouTube search engine (`shorts_studio/discovery/youtube.py`): Uses `yt-dlp` `--flat-playlist` to query candidate titles, URLs, durations, thumbnails, and views without triggering bot blocks.
-  - [x] Pipeline orchestrator (`shorts_studio/discovery/pipeline.py`): Connects `timeline.json` -> semantic queries -> candidate discovery -> `candidates.json`.
-  - [x] Verified end-to-end on test clip (`ai tantrum.mp4`) with 9 candidate clips discovered across all 3 scenes.
+- **Phase 2: Source Footage Discovery** - [x] **COMPLETED (VISUAL REVERSE WORKFLOW)**
+  - [x] Visual keyframe extraction (`shorts_studio/discovery/keyframes.py`): Samples sharp representative frames per scene.
+  - [x] Global entity & visual query generator (`shorts_studio/discovery/vision.py`): Anchors search queries with primary subjects across all scenes.
+  - [x] Perceptual frame matcher (`shorts_studio/discovery/matcher.py`): Fast `cap.grab()` sequential scan using dHash and HSV color histograms to pinpoint exact source `start_time` and `end_time`.
+  - [x] High-throughput candidate downloader (`shorts_studio/discovery/youtube.py`): Fetches 360p verification proxies using `--extractor-args "youtube:player_client=android,web"` bypassing YouTube bot checks.
+  - [x] Status reporting: Accurate detection of matched moments or flagging as `[NOT FOUND]`.
+  - [x] Tested on `ai tantrum.mp4`, outputting `cache/test_visual_discovery/visual_candidates.json`.
 - **Phase 3: Human Approval of Footage** *(Next Target)*
   - Interactive Streamlit dashboard to preview reference video & timeline breakdown
   - Visual cards for each scene showing candidate video thumbnails, titles, durations, and channels
